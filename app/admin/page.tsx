@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Beheer", robots: { index: false, fol
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  if (!hasSupabaseConfig()) return <main className="page-shell admin-setup"><p className="eyebrow">Beheer</p><h1>Nog niet gekoppeld</h1><p>De beveiligde beheeromgeving staat klaar. Voeg eerst de Supabase-URL en service-role key toe en voer beide migraties uit.</p></main>;
+  if (!hasSupabaseConfig()) return <main className="page-shell admin-setup"><p className="eyebrow">Beheer</p><h1>Beheer nog niet geactiveerd</h1><p>De database, drie migraties en openbare website zijn gekoppeld. Voeg alleen nog <code>SUPABASE_SERVICE_ROLE_KEY</code> als Sensitive-variabele aan Vercel Production toe. Deze geheime sleutel hoort uitsluitend aan de serverkant en nooit in Git of de browser.</p></main>;
   const user = await getAdminUser();
   if (!user) redirect("/admin/login");
   const supabase = createAdminClient()!;
