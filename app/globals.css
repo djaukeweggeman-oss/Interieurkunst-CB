@@ -149,14 +149,21 @@ button:focus-visible {
   line-height: 0.88;
 }
 
-.hero h1 em {
+.hero h1 > .hero-title-line {
   display: block;
-  max-width: 100%;
-  margin-top: 0.18em;
+  white-space: nowrap;
+}
+
+.hero h1 em {
   color: var(--clay);
   font-size: 0.9em;
   font-weight: 400;
-  line-height: 0.94;
+  line-height: inherit;
+}
+
+.hero h1 > .hero-title-last {
+  display: block;
+  max-width: 100%;
 }
 
 .hero-intro {
@@ -367,7 +374,12 @@ button:focus-visible {
   }
 
   .hero-image-wrap {
-    bottom: 36px;
+    bottom: 0;
+  }
+
+  .hero-artwork figcaption,
+  .discipline-strip {
+    display: none;
   }
 
   .hero-index {
@@ -1392,7 +1404,13 @@ button:focus-visible {
 }
 
 .commission-hero h1 {
-  font-size: clamp(68px, 8.5vw, 138px);
+  font-size: clamp(50px, 6.7vw, 96px);
+  line-height: 0.91;
+}
+
+.commission-hero h1 span {
+  display: block;
+  white-space: nowrap;
 }
 
 .process-list {

@@ -11,8 +11,9 @@ export default function HomePage() {
         <div className="hero-copy">
           <p className="eyebrow">Vrij werk · kunst in opdracht</p>
           <h1 id="hero-title">
-            Kunst met een{" "}
-            <em>eigen aanwezigheid.</em>
+            <span className="hero-title-line">Kunst met</span>
+            <span className="hero-title-line hero-title-mixed">een <em>eigen</em></span>
+            <em className="hero-title-line hero-title-last">aanwezigheid.</em>
           </h1>
           <p className="hero-intro">
             Expressieve schilderijen en handgemaakte objecten die een ruimte
