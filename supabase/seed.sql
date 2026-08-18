@@ -1,0 +1,3 @@
+-- Voer dit pas uit nadat een beheerder via Supabase Auth is aangemaakt.
+-- Vervang het UUID door het echte auth.users-id van Carolien.
+-- insert into public.admin_users(user_id) values ('00000000-0000-0000-0000-000000000000');

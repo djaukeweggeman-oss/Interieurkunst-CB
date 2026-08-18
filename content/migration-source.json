@@ -1,0 +1,14 @@
+{
+  "sourceSite": "https://cajb.jimdofree.com/",
+  "capturedOn": "2026-08-18",
+  "permission": "De eigenaar bevestigde dat openbare teksten en afbeeldingen lokaal mogen worden gemigreerd.",
+  "pages": [
+    { "source": "https://cajb.jimdofree.com/", "target": "/", "use": "introductieteksten en hoofdbeeld" },
+    { "source": "https://cajb.jimdofree.com/over-mij/", "target": "/over-carolien", "use": "kunstenaarsverhaal en atelierfoto" },
+    { "source": "https://cajb.jimdofree.com/portfolio/", "target": "/eerder-werk", "use": "openbaar portfolio en categorisering" },
+    { "source": "https://cajb.jimdofree.com/te-koop/", "target": "/collectie", "use": "actuele openbare werken zonder verzonnen prijzen" },
+    { "source": "https://cajb.jimdofree.com/in-opdracht/", "target": "/kunst-in-opdracht", "use": "werkwijze voor opdrachten" },
+    { "source": "https://cajb.jimdofree.com/contact/", "target": "/contact", "use": "actuele contactgegevens" }
+  ]
+}
+
