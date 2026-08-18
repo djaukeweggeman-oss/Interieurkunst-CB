@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { CollectionExplorer } from "@/components/collection-explorer";
-import { publicProducts } from "@/lib/catalog";
+import { getPublicCatalog } from "@/lib/catalog-data";
 
 export const metadata: Metadata = {
   title: "Shop",
   description: "Bekijk de beschikbare schilderijen en toekomstige handgemaakte objecten van Carolien Ballast.",
 };
 
-export default function CollectionPage() {
+export const revalidate = 60;
+
+export default async function CollectionPage() {
+  const { products, source } = await getPublicCatalog();
   return (
     <main className="page-shell collection-page">
       <header className="page-intro split-intro">
@@ -20,7 +23,8 @@ export default function CollectionPage() {
         <div><small>02</small><span>Volledig beeld, zonder uitsnede</span></div>
         <div><small>03</small><span>Levering straks in overleg</span></div>
       </div>
-      <CollectionExplorer products={publicProducts} />
+      <CollectionExplorer products={products} />
+      {source === "fallback" && <p className="content-note">Veilige voorbeeldcatalogus: echte verkoop wordt pas actief nadat producten, prijzen, btw en beschikbaarheid in Supabase zijn bevestigd.</p>}
     </main>
   );
 }

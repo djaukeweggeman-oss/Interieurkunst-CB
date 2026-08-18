@@ -4,18 +4,21 @@ import { notFound } from "next/navigation";
 import { AddToCart } from "@/components/add-to-cart";
 import { ArtworkLightbox } from "@/components/artwork-lightbox";
 import { ProductCard } from "@/components/product-card";
-import { categoryLabels, formatPrice, getProduct, publicProducts, statusLabels } from "@/lib/catalog";
+import { categoryLabels, formatPrice, statusLabels } from "@/lib/catalog";
+import { getPublicProduct, getPublicProducts } from "@/lib/catalog-data";
 import { siteConfig } from "@/lib/site-config";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return publicProducts.map((product) => ({ slug: product.slug }));
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  return (await getPublicProducts()).map((product) => ({ slug: product.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProduct(slug);
+  const product = await getPublicProduct(slug);
   if (!product) return {};
   const description = product.description.slice(0, 155);
   const image = product.images[0] ? new URL(product.images[0].src, siteConfig.siteUrl).toString() : undefined;
@@ -29,12 +32,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = getProduct(slug);
+  const product = await getPublicProduct(slug);
   if (!product) notFound();
-  const related = publicProducts.filter((item) => item.id !== product.id && item.category === product.category).slice(0, 3);
+  const related = (await getPublicProducts()).filter((item) => item.id !== product.id && item.category === product.category).slice(0, 3);
   const details = [
     ["Afmetingen", product.dimensions], ["Materiaal", product.material], ["Techniek", product.technique], ["Jaar", product.year?.toString()], ["Categorie", categoryLabels[product.category]],
   ].filter(([, value]) => value);
+  const deliveryOptions = [
+    product.canBePickedUp && "Afhalen op afspraak",
+    product.canBeShipped && `Verzenden${product.shippingCostCents ? ` (${formatPrice(product.shippingCostCents)})` : ""}`,
+    product.deliveryInConsultation && "Levering in overleg",
+  ].filter(Boolean).join(" · ");
   const structuredData = {
     "@context": "https://schema.org", "@type": "Product", name: product.name, description: product.description,
     image: product.images.map((image) => new URL(image.src, siteConfig.siteUrl).toString()),
@@ -55,7 +63,7 @@ export default async function ProductPage({ params }: Props) {
           <p className="product-price">{formatPrice(product.priceCents)}</p>
           <p className="product-description">{product.description}</p>
           <dl>{details.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
-          <div className="delivery-note"><strong>Levering</strong><p>Afhalen of bezorging in overleg. Definitieve verzendkosten worden vóór betaling bevestigd.</p></div>
+          <div className="delivery-note"><strong>Levering</strong><p>{deliveryOptions || "Neem contact op om de levering af te stemmen."}</p></div>
           <AddToCart product={product} />
           {product.priceCents === null && <Link className="text-link product-enquiry" href={`/contact?werk=${encodeURIComponent(product.name)}`}>Vraag naar dit werk →</Link>}
         </aside>

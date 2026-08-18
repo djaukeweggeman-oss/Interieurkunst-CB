@@ -2,9 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArtworkLightbox } from "@/components/artwork-lightbox";
 import { ProductCard } from "@/components/product-card";
-import { publicProducts } from "@/lib/catalog";
+import { getPublicCatalog } from "@/lib/catalog-data";
 
-export default function HomePage() {
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const { products, source } = await getPublicCatalog();
   return (
     <main>
       <section className="hero" aria-labelledby="hero-title">
@@ -63,9 +66,9 @@ export default function HomePage() {
           <Link className="text-link" href="/collectie">Bekijk de volledige shop →</Link>
         </div>
         <div className="featured-grid">
-          {publicProducts.filter((product) => product.featured).slice(0, 3).map((product, index) => <ProductCard product={product} index={index} key={product.id} />)}
+          {products.filter((product) => product.featured).slice(0, 3).map((product, index) => <ProductCard product={product} index={index} key={product.id} />)}
         </div>
-        <p className="content-note">Voorbeeldopstelling van de toekomstige shop met de actuele werken van Carolien. Definitieve prijzen, btw-tarieven en online verkoop worden later geactiveerd.</p>
+        {source === "fallback" && <p className="content-note">De huidige werken blijven als veilige voorbeeldcatalogus zichtbaar totdat de Supabase-productgegevens zijn ingevoerd. Zonder bevestigde prijs kan niets worden afgerekend.</p>}
       </section>
 
       <section className="artist-feature">

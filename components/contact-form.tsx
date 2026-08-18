@@ -14,15 +14,16 @@ export function ContactForm() {
     const form = event.currentTarget;
     try {
       const response = await fetch("/api/contact", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(form).entries())) });
-      const result = await response.json() as { message?: string; demo?: boolean };
+      const result = await response.json() as { message?: string; duplicate?: boolean };
       if (!response.ok) throw new Error(result.message ?? "Versturen is niet gelukt.");
       form.reset();
-      setState({ ok: true, message: result.demo ? "Je bericht is lokaal getest. Koppel Supabase/e-mail om het werkelijk te ontvangen." : "Dank je. Je bericht is ontvangen." });
+      setState({ ok: true, message: result.duplicate ? "Dit bericht was al ontvangen." : "Dank je. Je bericht is veilig ontvangen." });
     } catch (error) { setState({ ok: false, message: error instanceof Error ? error.message : "Er ging iets mis." }); }
   }
   return <form className="editorial-form" onSubmit={submit} onFocusCapture={() => setStartedAt((current) => current || Date.now())}>
     <input type="hidden" name="startedAt" value={startedAt} /><div className="honeypot" aria-hidden="true"><label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
     <div className="form-grid"><label>Naam *<input name="name" autoComplete="name" required /></label><label>E-mailadres *<input name="email" type="email" autoComplete="email" required /></label></div>
+    <label>Telefoonnummer<input name="phone" type="tel" autoComplete="tel" /></label>
     <label>Waar gaat je vraag over? *<select name="subject" required defaultValue={artwork ? `Vraag over ${artwork}` : ""}><option value="" disabled>Maak een keuze</option>{artwork && <option>{`Vraag over ${artwork}`}</option>}<option>Een kunstwerk</option><option>Bezorging of afhalen</option><option>Kunst in opdracht</option><option>Anders</option></select></label>
     <label>Bericht *<textarea name="message" rows={7} minLength={10} required /></label>
     <p className="form-privacy">Je gegevens worden alleen gebruikt om je vraag te beantwoorden. Lees meer in de privacyverklaring.</p>

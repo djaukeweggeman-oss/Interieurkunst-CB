@@ -9,7 +9,16 @@ export async function getAdminUser() {
   const { data, error } = await authClient.auth.getClaims();
   const userId = data?.claims?.sub;
   if (error || !userId) return null;
-  const { data: membership } = await adminClient.from("admin_users").select("user_id").eq("user_id", userId).maybeSingle();
-  return membership ? { id: userId, email: typeof data.claims.email === "string" ? data.claims.email : null } : null;
+  const { data: profile } = await adminClient.from("profiles").select("id,full_name,role").eq("id", userId).maybeSingle();
+  return profile ? {
+    id: userId,
+    email: typeof data.claims.email === "string" ? data.claims.email : null,
+    fullName: profile.full_name,
+    role: profile.role,
+  } : null;
 }
 
+export async function requireAdminRole() {
+  const user = await getAdminUser();
+  return user?.role === "admin" ? user : null;
+}
