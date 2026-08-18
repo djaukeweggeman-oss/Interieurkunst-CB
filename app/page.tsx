@@ -29,9 +29,9 @@ export default function HomePage() {
         </div>
 
         <figure className="hero-artwork">
-          <ArtworkLightbox className="hero-image-wrap" src="/art/studio-hero.jpg" alt="Een schilderij van Carolien Ballast in een warm interieur" caption="Werk van Carolien Ballast in situ" priority sizes="(max-width: 900px) 100vw, 59vw" />
+          <ArtworkLightbox className="hero-image-wrap" src="/art/studio-hero.jpg" alt="Een schilderij van Carolien Ballast in een warm interieur" caption="Werk van Carolien Ballast in een interieur" priority sizes="(max-width: 900px) 100vw, 59vw" />
           <figcaption>
-            <span>In situ</span>
+            <span>In een interieur</span>
             <span>Werk van Carolien Ballast</span>
           </figcaption>
         </figure>
