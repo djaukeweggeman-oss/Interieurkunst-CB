@@ -11,7 +11,7 @@ export default function CollectionPage() {
   return (
     <main className="page-shell collection-page">
       <header className="page-intro split-intro">
-        <p className="eyebrow">Shop · beschikbare werken</p>
+        <p className="eyebrow">Shop, beschikbare werken</p>
         <h1>Kunst voor een nieuwe plek.</h1>
         <p>De toekomstige shop is alvast ingericht met Carolien haar actuele werken. Ieder werk is uniek; definitieve prijzen en online verkoop volgen zodra alle gegevens zijn bevestigd.</p>
       </header>

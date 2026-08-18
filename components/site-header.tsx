@@ -7,8 +7,8 @@ import { useState } from "react";
 import { useCart } from "./cart-provider";
 
 const links = [
-  ["/collectie", "Shop"],
   ["/eerder-werk", "Eerder werk"],
+  ["/collectie", "Shop"],
   ["/kunst-in-opdracht", "In opdracht"],
   ["/over-carolien", "Over Carolien"],
 ] as const;
