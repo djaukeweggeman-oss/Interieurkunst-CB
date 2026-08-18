@@ -1,4 +1,4 @@
-export type ProductStatus = "available" | "reserved" | "sold" | "hidden";
+export type ProductStatus = "draft" | "available" | "reserved" | "sold" | "archived";
 export type ProductCategory = "painting" | "pot" | "object";
 
 export type Product = {
@@ -16,6 +16,12 @@ export type Product = {
   description: string;
   images: { src: string; alt: string; width: number; height: number }[];
   featured: boolean;
+  isPortfolioItem?: boolean;
+  canBeShipped?: boolean;
+  canBePickedUp?: boolean;
+  deliveryInConsultation?: boolean;
+  shippingCostCents?: number | null;
+  createdAt?: string;
   concept?: boolean;
   shipping: "pickup" | "shipping" | "consultation";
 };
@@ -100,7 +106,7 @@ export const products: Product[] = [
     slug: "handgemaakte-pot-concept",
     name: "Handgemaakte pot — concept",
     category: "pot",
-    status: "hidden",
+    status: "draft",
     priceCents: null,
     vatRate: null,
     dimensions: null,
@@ -115,7 +121,7 @@ export const products: Product[] = [
   },
 ];
 
-export const publicProducts = products.filter((product) => product.status !== "hidden");
+export const publicProducts = products.filter((product) => ["available", "reserved", "sold"].includes(product.status));
 
 export function getProduct(slug: string) {
   return publicProducts.find((product) => product.slug === slug);
@@ -128,10 +134,11 @@ export const categoryLabels: Record<ProductCategory, string> = {
 };
 
 export const statusLabels: Record<ProductStatus, string> = {
+  draft: "Concept",
   available: "Beschikbaar",
   reserved: "Tijdelijk gereserveerd",
   sold: "Verkocht",
-  hidden: "Niet zichtbaar",
+  archived: "Gearchiveerd",
 };
 
 export function formatPrice(priceCents: number | null) {

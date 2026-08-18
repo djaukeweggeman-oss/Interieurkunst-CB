@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { formatPrice, type Product } from "@/lib/catalog";
 
-type CartItem = Pick<Product, "id" | "slug" | "name" | "priceCents" | "images">;
+type CartItem = Pick<Product, "id" | "slug" | "name" | "priceCents" | "images" | "canBeShipped" | "canBePickedUp" | "deliveryInConsultation" | "shippingCostCents">;
 
 type CartContextValue = {
   items: CartItem[];
@@ -21,17 +21,25 @@ const storageKey = "interieurkunst-cb-cart";
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [open, setOpen] = useState(false);
+  const storageLoaded = useRef(false);
 
   useEffect(() => {
+    let storedItems: CartItem[] = [];
     try {
       const stored = window.localStorage.getItem(storageKey);
-      if (stored) queueMicrotask(() => setItems(JSON.parse(stored) as CartItem[]));
+      const parsed = stored ? JSON.parse(stored) : [];
+      if (Array.isArray(parsed)) storedItems = parsed as CartItem[];
     } catch {
       window.localStorage.removeItem(storageKey);
     }
+    queueMicrotask(() => {
+      storageLoaded.current = true;
+      setItems(storedItems);
+    });
   }, []);
 
   useEffect(() => {
+    if (!storageLoaded.current) return;
     window.localStorage.setItem(storageKey, JSON.stringify(items));
   }, [items]);
 

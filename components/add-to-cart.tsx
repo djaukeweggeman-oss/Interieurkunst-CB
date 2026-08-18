@@ -8,7 +8,7 @@ export function AddToCart({ product }: { product: Product }) {
   const disabled = product.status !== "available" || product.priceCents === null;
   return (
     <button className="button button-dark button-wide" type="button" disabled={disabled} onClick={() => addItem(product)}>
-      {product.status === "sold" ? "Dit werk is verkocht" : product.priceCents === null ? "Prijs volgt — informeer gerust" : "Toevoegen aan winkelmand ↗"}
+      {product.status === "sold" ? "Dit werk is verkocht" : product.status === "reserved" ? "Tijdelijk gereserveerd" : product.priceCents === null ? "Prijs volgt — informeer gerust" : "Toevoegen aan winkelmand ↗"}
     </button>
   );
 }
