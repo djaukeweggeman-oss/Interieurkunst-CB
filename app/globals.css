@@ -100,6 +100,7 @@ button:focus-visible {
   font-family: var(--serif);
   font-size: clamp(19px, 1.8vw, 27px);
   letter-spacing: 0.08em;
+  white-space: nowrap;
   text-transform: uppercase;
 }
 
@@ -322,7 +323,13 @@ button:focus-visible {
   }
 
   .wordmark span {
-    font-size: 18px;
+    font-size: clamp(13px, 4vw, 16px);
+  }
+
+  .wordmark small {
+    font-size: 7px;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
   }
 
   .header-nav-right a:first-child {

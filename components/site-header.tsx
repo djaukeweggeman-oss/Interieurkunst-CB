@@ -27,7 +27,7 @@ export function SiteHeader() {
         </nav>
         <Link className="wordmark" href="/" aria-label="Interieurkunst CB, home">
           <span>Interieurkunst CB</span>
-          <small>Kunst van Carolien Ballast</small>
+          <small>Carolien Ballast</small>
         </Link>
         <nav className="header-nav header-nav-right" aria-label="Secundaire navigatie">
           <Link className={isActive("/over-carolien") ? "is-active" : ""} href="/over-carolien">Over Carolien</Link>

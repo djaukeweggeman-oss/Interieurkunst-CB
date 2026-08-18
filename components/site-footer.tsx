@@ -7,7 +7,7 @@ export function SiteFooter() {
       <div className="footer-heading">
         <Link className="footer-mark" href="/" aria-label="Interieurkunst CB, home">
           <p><span>Interieurkunst</span><span>CB</span></p>
-          <span>Kunst van Carolien Ballast</span>
+          <span>Carolien Ballast</span>
         </Link>
         <p>Vrij werk en persoonlijke schilderijen vanuit Carolien haar atelier nabij Deventer.</p>
       </div>
