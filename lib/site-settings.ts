@@ -16,16 +16,16 @@ const loadSettings = unstable_cache(async () => {
     console.warn("[settings] Publieke instellingen konden niet worden geladen; de lokale standaardwaarden blijven actief.");
     return null;
   }
-  return new Map(result.data.map((row) => [row.key, objectValue(row.value)]));
+  return Object.fromEntries(result.data.map((row) => [row.key, objectValue(row.value)]));
 }, ["public-site-settings-v1"], { revalidate: 300, tags: ["site-settings"] });
 
 export async function getPublicSiteSettings() {
   const settings = await loadSettings();
-  const business = settings?.get("business.public") ?? {};
-  const contact = settings?.get("contact.public") ?? {};
-  const delivery = settings?.get("delivery.public") ?? {};
-  const social = settings?.get("social.public") ?? {};
-  const seo = settings?.get("seo.public") ?? {};
+  const business = settings?.["business.public"] ?? {};
+  const contact = settings?.["contact.public"] ?? {};
+  const delivery = settings?.["delivery.public"] ?? {};
+  const social = settings?.["social.public"] ?? {};
+  const seo = settings?.["seo.public"] ?? {};
   return {
     businessName: typeof business.business_name === "string" ? business.business_name : siteConfig.name,
     artistName: typeof business.artist_name === "string" ? business.artist_name : siteConfig.artist,

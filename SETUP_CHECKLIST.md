@@ -2,9 +2,11 @@
 
 ## Supabase
 
-- [ ] Expliciet toestemming geven om beide migraties op project `Interieurkunst CB` toe te passen.
-- [ ] Na toepassing `supabase migration list --linked` controleren.
-- [ ] `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` en `SUPABASE_SERVICE_ROLE_KEY` lokaal en in Vercel instellen.
+- [x] Expliciet toestemming geven om alle drie migraties op project `Interieurkunst CB` toe te passen.
+- [x] Alle drie migraties toepassen en met `supabase migration list --linked` plus `supabase db lint --linked` controleren.
+- [x] `NEXT_PUBLIC_SUPABASE_URL` en `NEXT_PUBLIC_SUPABASE_ANON_KEY` lokaal instellen.
+- [x] `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` en `NEXT_PUBLIC_SITE_URL` in Vercel instellen.
+- [ ] `SUPABASE_SERVICE_ROLE_KEY` lokaal en als Sensitive-variabele voor Vercel Production instellen.
 - [ ] Publieke registratie uitschakelen in Supabase Auth.
 - [ ] Carolien via Supabase Auth aanmaken en als `admin` toevoegen aan `profiles`.
 - [ ] Login, uitloggen en onbevoegde toegang testen.

@@ -1,5 +1,10 @@
 begin;
 
+-- Legacy public policies depend on products.published and must be removed
+-- before that column is replaced by published_at. They are recreated below.
+drop policy if exists "Public reads published products" on public.products;
+drop policy if exists "Public reads images of published products" on public.product_images;
+
 -- Bring the first webshop migration forward without discarding existing rows.
 alter table public.categories rename column active to is_active;
 alter table public.categories add column if not exists description text not null default '';

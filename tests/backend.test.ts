@@ -97,9 +97,27 @@ test("migratie bevat RLS, privé-opslag en atomische reservering", () => {
   }
   assert.match(sql, /'commission-uploads', 'commission-uploads', false/i);
   assert.match(sql, /for update;/i);
+  assert.ok(
+    sql.indexOf('drop policy if exists "Public reads published products"') < sql.indexOf("alter table public.products drop column published"),
+    "legacy productpolicy moet vóór de published-kolom worden verwijderd",
+  );
   assert.match(sql, /one_active_reservation_per_product/i);
   assert.match(sql, /on conflict \(event_key\) do nothing/i);
   assert.match(sql, /grant execute on function public\.reserve_products_for_checkout[^;]+to service_role/i);
+});
+
+test("publieke site-instellingen hebben tabelrecht én RLS-beperking", () => {
+  const schema = readFileSync("supabase/migrations/202608180002_complete_backend.sql", "utf8");
+  const grant = readFileSync("supabase/migrations/202608180003_restore_public_settings_read.sql", "utf8");
+  assert.match(schema, /on public\.site_settings for select to anon, authenticated using \(is_public\)/i);
+  assert.match(grant, /grant select on table public\.site_settings to anon, authenticated/i);
+  assert.doesNotMatch(grant, /grant (all|insert|update|delete)/i);
+});
+
+test("publieke site-instellingen blijven serialiseerbaar in de Next-cache", () => {
+  const source = readFileSync("lib/site-settings.ts", "utf8");
+  assert.match(source, /Object\.fromEntries\(/);
+  assert.doesNotMatch(source, /new Map\(/);
 });
 
 test("iedere beheer-API controleert server-side autorisatie", () => {
